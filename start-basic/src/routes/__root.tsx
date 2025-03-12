@@ -128,6 +128,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           >
             This Route Does Not Exist
           </Link>
+          <Link
+            to="/MakeRoutes"
+            activeProps={{
+              className: 'font-bold',
+            }}
+          >
+            Make a Route
+          </Link>
         </div>
         <hr />
         {children}

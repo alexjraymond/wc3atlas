@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
+import { Route as MakeRoutesImport } from './routes/MakeRoutes'
 import { Route as UsersRouteImport } from './routes/users.route'
 import { Route as PostsRouteImport } from './routes/posts.route'
 import { Route as IndexImport } from './routes/index'
@@ -42,6 +43,12 @@ const DeferredRoute = DeferredImport.update({
 
 const PathlessLayoutRoute = PathlessLayoutImport.update({
   id: '/_pathlessLayout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MakeRoutesRoute = MakeRoutesImport.update({
+  id: '/MakeRoutes',
+  path: '/MakeRoutes',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -137,6 +144,13 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users'
       preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/MakeRoutes': {
+      id: '/MakeRoutes'
+      path: '/MakeRoutes'
+      fullPath: '/MakeRoutes'
+      preLoaderRoute: typeof MakeRoutesImport
       parentRoute: typeof rootRoute
     }
     '/_pathlessLayout': {
@@ -283,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
+  '/MakeRoutes': typeof MakeRoutesRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
@@ -297,6 +312,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/MakeRoutes': typeof MakeRoutesRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
@@ -314,6 +330,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
+  '/MakeRoutes': typeof MakeRoutesRoute
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
@@ -333,6 +350,7 @@ export interface FileRouteTypes {
     | '/'
     | '/posts'
     | '/users'
+    | '/MakeRoutes'
     | ''
     | '/deferred'
     | '/redirect'
@@ -346,6 +364,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/MakeRoutes'
     | ''
     | '/deferred'
     | '/redirect'
@@ -361,6 +380,7 @@ export interface FileRouteTypes {
     | '/'
     | '/posts'
     | '/users'
+    | '/MakeRoutes'
     | '/_pathlessLayout'
     | '/deferred'
     | '/redirect'
@@ -379,6 +399,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostsRouteRoute: typeof PostsRouteRouteWithChildren
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
+  MakeRoutesRoute: typeof MakeRoutesRoute
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   RedirectRoute: typeof RedirectRoute
@@ -389,6 +410,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostsRouteRoute: PostsRouteRouteWithChildren,
   UsersRouteRoute: UsersRouteRouteWithChildren,
+  MakeRoutesRoute: MakeRoutesRoute,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   RedirectRoute: RedirectRoute,
@@ -408,6 +430,7 @@ export const routeTree = rootRoute
         "/",
         "/posts",
         "/users",
+        "/MakeRoutes",
         "/_pathlessLayout",
         "/deferred",
         "/redirect",
@@ -430,6 +453,9 @@ export const routeTree = rootRoute
         "/users/$userId",
         "/users/"
       ]
+    },
+    "/MakeRoutes": {
+      "filePath": "MakeRoutes.tsx"
     },
     "/_pathlessLayout": {
       "filePath": "_pathlessLayout.tsx",
